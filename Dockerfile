@@ -19,6 +19,9 @@ RUN cd /tmp \
 
 WORKDIR $GRAYLOG_HOME
 
+# Add contentpacks
+COPY contentpacks/* data/contentpacks
+
 # Add initialization script
 COPY bin/entrypoint.sh bin/entrypoint.sh
 
