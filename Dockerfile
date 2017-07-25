@@ -11,11 +11,19 @@ ENV GRAYLOG_HOME /opt/graylog
 # Install image dependencies
 #RUN apt-get update && apt-get install wget 
 
+# Download and extract Graylog tarball
 RUN cd /tmp \
   && wget -q https://packages.graylog2.org/releases/graylog/graylog-$GRAYLOG_VERSION.tgz \
   && tar xvzf graylog-$GRAYLOG_VERSION.tgz \
   && mv graylog-$GRAYLOG_VERSION /opt/graylog \
   && rm graylog-$GRAYLOG_VERSION.tgz
+
+# Download GeoIP database
+RUN wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz \
+  && tar xvzf GeoLite2-City.tar.gz \
+  && mkdir -p /etc/graylog/server \
+  && mv GeoLite2-City_20170704/GeoLite2-City.mmdb /etc/graylog/server/GeoLite2-City.mmdb \ 
+  && rm -rf GeoLite2*
 
 WORKDIR $GRAYLOG_HOME
 
@@ -44,9 +52,15 @@ EXPOSE 9000
 EXPOSE 12201
 EXPOSE 12201/udp
 
-# syslog
-EXPOSE 514
-EXPOSE 514/udp
+# SYSLOG
+EXPOSE 5140/udp
+
+# SYSLOG (Nginx contentpack)
+EXPOSE 12301/udp
+EXPOSE 12302/udp
+
+# RAW TCP (GeoIP testing)
+EXPOSE 5555
 
 # Define main command
 ENTRYPOINT ["bin/entrypoint.sh"]

@@ -13,7 +13,7 @@
       "bind_address" : "0.0.0.0"
     },
     "type" : "org.graylog2.inputs.syslog.udp.SyslogUDPInput",
-    "global" : false,
+    "global" : true,
     "extractors" : [ {
       "title" : "Timestamp",
       "type" : "REGEX",
@@ -112,7 +112,7 @@
       "bind_address" : "0.0.0.0"
     },
     "type" : "org.graylog2.inputs.syslog.udp.SyslogUDPInput",
-    "global" : false,
+    "global" : true,
     "extractors" : [ {
       "title" : "Remote Address",
       "type" : "REGEX",
