@@ -1,16 +1,17 @@
-# Set the base image to Java8
+# Set the base image to Java 8
 FROM openjdk:8-jre
 
 # File Author / Maintainer
 MAINTAINER Jorge Acetozi
 
 # Define default environment variables
-ENV GRAYLOG_VERSION 2.2.3
+ENV GRAYLOG_VERSION 2.4.3
 ENV GRAYLOG_HOME /opt/graylog
 
 # Install image dependencies
 #RUN apt-get update && apt-get install wget 
 
+# Download and extract Graylog tarball
 RUN cd /tmp \
   && wget -q https://packages.graylog2.org/releases/graylog/graylog-$GRAYLOG_VERSION.tgz \
   && tar xvzf graylog-$GRAYLOG_VERSION.tgz \
@@ -41,7 +42,7 @@ EXPOSE 9000
 EXPOSE 12201
 EXPOSE 12201/udp
 
-# syslog
+# Syslog
 EXPOSE 5140
 EXPOSE 5140/udp
 
