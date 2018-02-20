@@ -5,7 +5,7 @@ FROM openjdk:8-jre
 MAINTAINER Jorge Acetozi
 
 # Define default environment variables
-ENV GRAYLOG_VERSION 2.2.3
+ENV GRAYLOG_VERSION 2.4.3
 ENV GRAYLOG_HOME /opt/graylog
 
 # Install image dependencies
@@ -22,7 +22,7 @@ RUN cd /tmp \
 RUN wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz \
   && tar xvzf GeoLite2-City.tar.gz \
   && mkdir -p /etc/graylog/server \
-  && mv GeoLite2-City_20170704/GeoLite2-City.mmdb /etc/graylog/server/GeoLite2-City.mmdb \ 
+  && mv GeoLite2-City_*/GeoLite2-City.mmdb /etc/graylog/server/GeoLite2-City.mmdb \ 
   && rm -rf GeoLite2*
 
 WORKDIR $GRAYLOG_HOME
@@ -52,14 +52,15 @@ EXPOSE 9000
 EXPOSE 12201
 EXPOSE 12201/udp
 
-# SYSLOG
+# Syslog
+EXPOSE 5140
 EXPOSE 5140/udp
 
-# SYSLOG (Nginx contentpack)
+# Syslog (Nginx contentpack)
 EXPOSE 12301/udp
 EXPOSE 12302/udp
 
-# RAW TCP (GeoIP testing)
+# Raw TCP (GeoIP testing)
 EXPOSE 5555
 
 # Define main command
